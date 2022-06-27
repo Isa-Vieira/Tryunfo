@@ -12,25 +12,58 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
-      cardTrunfo: '',
-      hasTrunfo: '',
-
+      cardRare: 'normal',
+      cardTrunfo: false,
+      hasTrunfo: false,
+      isSaveButtonDisabled: true,
     };
   }
 
-  onInput = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  buttonValue = () => {
+    const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
+    const valueMax = 90;
+    if (cardAttr1 <= valueMax && cardAttr1 >= 0
+    && cardAttr2 <= valueMax && cardAttr2 >= 0
+     && cardAttr3 <= valueMax && cardAttr3 >= 0) {
+      return true;
+    }
+    return false;
   }
 
+   somaValues = () => {
+     const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
+     const valueMaxSoma = 210;
+     const sun = valueMaxSoma - cardAttr1 - cardAttr2 - cardAttr3;
+     if (sun >= 0) {
+       return true;
+     }
+     return false;
+   }
+
+    button = () => {
+      const { cardName, cardDescription, cardImage, cardRare } = this.state;
+      if (cardName && cardDescription && cardImage && cardRare && this.buttonValue()
+      && this.somaValues()) {
+        this.state.isSaveButtonDisabled = false;
+      } else {
+        this.state.isSaveButtonDisabled = true;
+      }
+    }
+
+  onInput = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
+    this.button();
     const { cardName, cardDescription,
       cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
-      cardTrunfo, hasTrunfo } = this.state;
+      cardTrunfo, hasTrunfo, isSaveButtonDisabled } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
         <Form
+          isSaveButtonDisabled={ isSaveButtonDisabled }
           cardName={ cardName }
           onInputChange={ this.onInput }
           cardDescription={ cardDescription }
@@ -41,8 +74,6 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
-          /* isSaveButtonDisabled={ isSaveButtonDisabled }
-          onSaveButtonClick={ onSaveButtonClick } */
         />
         <Card
           cardName={ cardName }
