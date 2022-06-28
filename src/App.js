@@ -16,6 +16,7 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      cardList: [],
     };
   }
 
@@ -51,8 +52,24 @@ class App extends React.Component {
     }
 
     onSave = (event) => {
+      const { cardName,
+        cardDescription,
+        cardImage,
+        cardRare,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3 } = this.state;
+
+      const valor = { cardName,
+        cardDescription,
+        cardImage,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3,
+        cardRare };
       event.preventDefault();
-      this.setState({
+      this.setState((prevState) => ({
+        cardList: [...prevState.cardList, valor],
         cardName: '',
         cardDescription: '',
         cardImage: '',
@@ -61,10 +78,10 @@ class App extends React.Component {
         cardAttr3: '0',
         cardRare: 'normal',
         /* cardTrunfo: false, */
-      });
-    }
+      }));
+    };
 
-    // if de curtocircuito &&, é obritario que faça, ! sempre vai fazer ao controrio com true e false.
+    // if de curtocircuito &&, é obritario que faça, ! sempre vai fazer ao controrio com true e false. - Ajuda Dani Muller
   onInput = (event) => {
     const { cardTrunfo } = this.state;
     const valedetCardTrunfo = event.target.name === 'cardTrunfo'
@@ -78,7 +95,7 @@ class App extends React.Component {
     this.button();
     const { cardName, cardDescription,
       cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
-      cardTrunfo, hasTrunfo, isSaveButtonDisabled } = this.state;
+      cardTrunfo, hasTrunfo, isSaveButtonDisabled, cardList } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -103,7 +120,15 @@ class App extends React.Component {
           cardAttr2={ cardAttr2 }
           cardAttr3={ cardAttr3 }
           cardTrunfo={ cardTrunfo }
+
         />
+        <div>
+          { cardList.map((card, index) => (<Card
+            key={ index }
+            { ...card }
+          />))}
+
+        </div>
       </div>
     );
   }
