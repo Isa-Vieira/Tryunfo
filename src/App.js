@@ -50,6 +50,20 @@ class App extends React.Component {
       }
     }
 
+    onSave = (event) => {
+      event.preventDefault();
+      this.setState({
+        cardName: '',
+        cardDescription: '',
+        cardImage: '',
+        cardAttr1: '0',
+        cardAttr2: '0',
+        cardAttr3: '0',
+        cardRare: 'normal',
+        /* cardTrunfo: false, */
+      });
+    }
+
   onInput = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -74,6 +88,7 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
+          onSaveButtonClick={ this.onSave }
         />
         <Card
           cardName={ cardName }
