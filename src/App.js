@@ -127,7 +127,11 @@ class App extends React.Component {
             key={ index }
             { ...card }
           />))}
+          {/*          <button
+            data-testid="delete-button"
 
+            Excluir
+          /> */}
         </div>
       </div>
     );
