@@ -7,7 +7,6 @@ class Form extends React.Component {
       cardAttr3, cardImage, cardRare, cardTrunfo,
       hasTrunfo, isSaveButtonDisabled, onInputChange,
       onSaveButtonClick } = this.props;
-      console.log(hasTrunfo);
     return (
       <form>
         <label htmlFor="cardName">
