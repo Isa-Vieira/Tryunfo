@@ -64,9 +64,15 @@ class App extends React.Component {
       });
     }
 
+    // if de curtocircuito &&, é obritario que faça, ! sempre vai fazer ao controrio com true e false.
   onInput = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    const { cardTrunfo } = this.state;
+    const valedetCardTrunfo = event.target.name === 'cardTrunfo'
+    && !cardTrunfo;
+    this.setState(() => ({ [event.target.name]: event.target.value,
+      cardTrunfo: valedetCardTrunfo,
+      hasTrunfo: valedetCardTrunfo }));
+  }
 
   render() {
     this.button();
