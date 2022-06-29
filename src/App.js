@@ -91,50 +91,62 @@ class App extends React.Component {
       hasTrunfo: valedetCardTrunfo }));
   }
 
-  render() {
-    this.button();
-    const { cardName, cardDescription,
-      cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
-      cardTrunfo, hasTrunfo, isSaveButtonDisabled, cardList } = this.state;
-    return (
-      <div>
-        <h1>Tryunfo</h1>
-        <Form
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          cardName={ cardName }
-          onInputChange={ this.onInput }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
-          onSaveButtonClick={ this.onSave }
-        />
-        <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardTrunfo={ cardTrunfo }
+    remove = (name) => {
+      this.setState((prevCard) => ({
+        cardList: prevCard.cardList.filter((param) => param.cardName !== name) }),
+      () => {
+        const { cardList } = this.state;
+        this.setState({ hasTrunfo: cardList.some((item) => item.cardTrunfo) });
+      });
+    }
 
-        />
+    render() {
+      this.button();
+      const { cardName, cardDescription,
+        cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
+        cardTrunfo, hasTrunfo, isSaveButtonDisabled, cardList } = this.state;
+      return (
         <div>
-          { cardList.map((card, index) => (<Card
-            key={ index }
-            { ...card }
-          />))}
-          {/*          <button
-            data-testid="delete-button"
+          <h1>Tryunfo</h1>
+          <Form
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            cardName={ cardName }
+            onInputChange={ this.onInput }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            hasTrunfo={ hasTrunfo }
+            onSaveButtonClick={ this.onSave }
+          />
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardTrunfo={ cardTrunfo }
 
-            Excluir
-          /> */}
+          />
+          { cardList.map((card, index) => (
+            <div key={ index }>
+              <Card
+                { ...card }
+              />
+              <button
+                data-testid="delete-button"
+                type="button"
+                onClick={ () => this.remove(card.cardName) }
+              >
+                Excluir
+              </button>
+            </div>
+          ))}
         </div>
-      </div>
-    );
-  }
+      );
+    }
 }
 export default App;
